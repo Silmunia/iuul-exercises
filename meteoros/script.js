@@ -70,7 +70,7 @@ class InputParser {
 
     outputParsedInput() {
         if (!this.rawInput.includes("0 0 0 0")) {
-            throw new Error("Input does not include an entry to indicate end of input. Program aborted.");
+            throw new Error("Input does not include an entry to indicate end of input. Program aborted with input: " + this.rawInput);
         }
 
         var currentIndex = 0;
@@ -80,19 +80,23 @@ class InputParser {
         var testInfoArray = [null, null];
         var meteoriteCoordinatesArray = [];
 
-        var meteoriteCounter = 0;
+        var meteoriteCounter = null;
 
         while (currentInput !== "0 0 0 0") {
-
-            const splitInput = currentInput.split(" ");
+            
+            const splitInput = currentInput.split(" ").filter((element) => element !== "");
 
             switch (splitInput.length) {
                 case 1:
     
                     if (testInfoArray[0] === null) {
-                        throw new Error("Expected farm coordinates and received meteorite coordinates instead. Program aborted.");
-                    } else if (meteoriteCounter !== 0) {
-                        throw new Error("Expected meteorite coordinates and received number of meteorites instead. Program aborted.");
+                        throw new Error("Expected farm coordinates and received meteorite coordinates instead. Program aborted with input: " + this.rawInput);
+                    } else if (meteoriteCounter !== null) {
+                        throw new Error("Expected meteorite coordinates and received number of meteorites instead. Program aborted with input: " + this.rawInput);
+                    } else if (splitInput[0] === "0") {
+                        testInfoArray = [null, null];
+                        meteoriteCoordinatesArray = [];
+                        meteoriteCounter = null;
                     } else {
                         meteoriteCounter = splitInput[0];
                     }
@@ -102,11 +106,11 @@ class InputParser {
                 case 2:
     
                     if (testInfoArray[0] === null) {
-                        throw new Error("Expected farm coordinates and received meteorite coordinates instead. Program aborted.");
-                    } else if (meteoriteCounter === 0) {
-                        throw new Error("Expected number of meteorites and received meteorite coordinates instead. Program aborted.");
+                        throw new Error("Expected farm coordinates and received meteorite coordinates instead. Program aborted with input: " + this.rawInput);
+                    } else if (meteoriteCounter === null) {
+                        throw new Error("Expected number of meteorites and received meteorite coordinates instead. Program aborted with input: " + this.rawInput);
                     } else if (meteoriteCoordinatesArray.length > meteoriteCounter) {
-                        throw new Error("Expected " + meteoriteCandidates + " meteorite coordinates and received " + meteoriteCandidateCounter + " instead. Program aborted.");
+                        throw new Error("Expected " + meteoriteCandidates + " meteorite coordinates and received " + meteoriteCandidateCounter + " instead. Program aborted with input: " + this.rawInput);
                     } else {
                         meteoriteCoordinatesArray.push(splitInput);
 
@@ -117,7 +121,7 @@ class InputParser {
 
                             testInfoArray = [null, null];
                             meteoriteCoordinatesArray = [];
-                            meteoriteCounter = 0;
+                            meteoriteCounter = null;
                         }
                     }
                     
@@ -126,7 +130,7 @@ class InputParser {
                 case 4:
                         
                     if (testInfoArray[0] !== null) {
-                        throw new Error("Expected number of meteorites and received area coordinates instead. Program aborted.");
+                        throw new Error("Expected number of meteorites and received area coordinates instead. Program aborted with input: " + this.rawInput);
                     } else {
                         testInfoArray[0] = splitInput;    
                     }
@@ -134,7 +138,7 @@ class InputParser {
                     break;
     
                 default:
-                    throw new Error("Input includes input with invalid number of arguments:" + splitInput + ". Program aborted.");
+                    throw new Error("Input includes input with invalid number of arguments:" + splitInput + ". Program aborted with input: " + this.rawInput);
             }
     
             currentIndex += 1;
@@ -147,9 +151,9 @@ class InputParser {
 
 function runTest() {
     var input = "2 4 5 1\n2\n1 2\n3 3\n2 4 3 2\n3\n1 1\n2 2\n3 3\n0 0 0 0";
-    var inputLines = input.split('\n');
+    var lines = input.split('\n');
 
-    const inputParser = new InputParser(inputLines);
+    const inputParser = new InputParser(lines);
 
     const testManager = new TestManager();
 
