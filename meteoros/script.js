@@ -1,5 +1,10 @@
 class Coordinates {
     constructor(x, y) {
+
+        if (isNaN(x) || isNaN(y)) {
+            throw new Error("Coordinates constructor expects two numbers and received [" + x + " - " + y + "] instead. Program aborted.");
+        }
+
         this.x = x;
         this.y = y;
     }
@@ -7,12 +12,22 @@ class Coordinates {
   
 class Meteorite {
     constructor(coordinateArray) {
+
+        if (coordinateArray.length != 2) {
+            throw new Error("Meteorite constructor expects an Array with two elements and received [" + coordinateArray + "] instead. Program aborted.");
+        }
+
         this.coordinates = new Coordinates(coordinateArray[0], coordinateArray[1]);
     }
 }
   
 class Farm {
     constructor(coordinateArray) {
+
+        if (coordinateArray.length != 4) {
+            throw new Error("Farm constructor expects an Array with four elements and received [" + coordinateArray + "] instead. Program aborted.");
+        }
+
         this.topLeftCoordinate = new Coordinates(coordinateArray[0], coordinateArray[1]);
         this.bottomRightCoordinate = new Coordinates(coordinateArray[2], coordinateArray[3]);
 
