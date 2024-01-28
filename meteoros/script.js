@@ -1,8 +1,8 @@
 class Coordinates {
     constructor(x, y) {
 
-        if (isNaN(x) || isNaN(y)) {
-            throw new Error("Coordinates constructor expects two numbers and received [" + x + " - " + y + "] instead. Program aborted.");
+        if (isNaN(x) || isNaN(y) || x < 0 || y < 0 || x > 10000 || y > 10000) {
+            throw new Error("Coordinates constructor expects two numbers between 0 and 10.000, and received [" + x + " - " + y + "] instead. Program aborted.");
         }
 
         this.x = x;
@@ -108,6 +108,8 @@ class InputParser {
                         throw new Error("Expected farm coordinates and received meteorite coordinates instead. Program aborted with input: " + this.rawInput);
                     } else if (meteoriteCounter !== null) {
                         throw new Error("Expected meteorite coordinates and received number of meteorites instead. Program aborted with input: " + this.rawInput);
+                    } else if (splitInput[0] < 0 || splitInput[0] > 10000) {
+                        throw new Error("Expected number of meteorites between 0 and 10000, and received " + splitInput[0] + " instead. Program aborted with input: " + this.rawInput);
                     } else if (splitInput[0] === "0") {
                         testInfoArray = [null, null];
                         meteoriteCoordinatesArray = [];
@@ -165,7 +167,7 @@ class InputParser {
 }
 
 function runTest() {
-    var input = "2 4 5 1\n2\n1 2\n3 3\n2 4 3 2\n3\n1 1\n2 2\n3 3\n0 0 0 0";
+    var input = "2 4 5 1\n2\n1 2\n3 3\n2 4 3 2\n3\n1 1\n2 2\n3 3\n0 10000 10000 0\n4\n0 0\n0 10000\n10000 0\n10000 10000\n0 0 0 0";
     var lines = input.split('\n');
 
     const inputParser = new InputParser(lines);
