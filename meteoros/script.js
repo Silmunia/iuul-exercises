@@ -95,14 +95,15 @@ class InputParser {
                         throw new Error("Expected meteorite coordinates and received number of meteorites instead. Program aborted.");
                     } else {
                         meteoriteCounter = splitInput[0];
-                        break;
                     }
+                    
+                    break;
     
                 case 2:
     
                     if (testInfoArray[0] === null) {
                         throw new Error("Expected farm coordinates and received meteorite coordinates instead. Program aborted.");
-                    } else if (meteoriteCounter == 0) {
+                    } else if (meteoriteCounter === 0) {
                         throw new Error("Expected number of meteorites and received meteorite coordinates instead. Program aborted.");
                     } else if (meteoriteCoordinatesArray.length > meteoriteCounter) {
                         throw new Error("Expected " + meteoriteCandidates + " meteorite coordinates and received " + meteoriteCandidateCounter + " instead. Program aborted.");
@@ -118,9 +119,9 @@ class InputParser {
                             meteoriteCoordinatesArray = [];
                             meteoriteCounter = 0;
                         }
-    
-                        break;
                     }
+                    
+                    break;
     
                 case 4:
                         
@@ -128,8 +129,9 @@ class InputParser {
                         throw new Error("Expected number of meteorites and received area coordinates instead. Program aborted.");
                     } else {
                         testInfoArray[0] = splitInput;    
-                        break;
                     }
+                    
+                    break;
     
                 default:
                     throw new Error("Input includes input with invalid number of arguments:" + splitInput + ". Program aborted.");
