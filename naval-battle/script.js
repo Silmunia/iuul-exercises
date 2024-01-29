@@ -1,3 +1,10 @@
+class Coordinates {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
 class Gameboard {
     constructor(size, boardState, numberOfShots, shotsInfo) {
         this.lines = size[0];
@@ -5,6 +12,22 @@ class Gameboard {
         this.boardState = boardState;
         this.numberOfShots = numberOfShots;
         this.shotsInfo = shotsInfo;
+    }
+
+    getShipsDestroyed() {
+        var shipCounter = 0;
+
+        for (let i = 0; i < this.numberOfShots; i++) {
+            
+            const shotCoordinateX = this.shotsInfo[i].x-1;
+            const shotCoordinateY = this.shotsInfo[i].y-1;
+
+            if (this.boardState[shotCoordinateX][shotCoordinateY] == "#") {
+                shipCounter += 1;
+            }
+        }
+
+        return shipCounter;
     }
 }
 
@@ -15,7 +38,7 @@ class InputParser {
 
     getParsedInput() {
         var gameboardSize = null;
-        var gameboardState = [];
+        var gameboardLines = [];
         var numberOfShots = null;
         var shotsInfoArray = [];
 
@@ -26,15 +49,19 @@ class InputParser {
             if (i == 0) {
                 gameboardSize = splitInput;
             } else if (i <= gameboardSize[0]) {
-                gameboardState.push(splitInput);
+                const gameLine = splitInput[0].split("");
+                
+                gameboardLines.push(gameLine);
             } else if (splitInput.length == 1) {
                 numberOfShots = splitInput[0];
             } else {
-                shotsInfoArray.push(splitInput);
+                const shotCoordinate = new Coordinates(splitInput[0], splitInput[1]);
+
+                shotsInfoArray.push(shotCoordinate);
             }
         }
 
-        return new Gameboard(gameboardSize, gameboardState, numberOfShots, shotsInfoArray);
+        return new Gameboard(gameboardSize, gameboardLines, numberOfShots, shotsInfoArray);
     }
 }
 
@@ -44,5 +71,7 @@ function runTest() {
 
     const inputParser = new InputParser(lines);
 
-    console.log(inputParser.getParsedInput());
+    const gameboard = inputParser.getParsedInput();
+
+    console.log(gameboard.getShipsDestroyed());
 }
