@@ -11,8 +11,33 @@ class ShipPart extends Coordinates {
         this.status = "ok";
     }
 
-    evaluateHit(shotCoordinates) {
+    evaluatePartHit(shotCoordinates) {
         if (shotCoordinates.x == this.x && shotCoordinates.y == this.y) {
+            this.status = "destroyed";
+        }
+    }
+}
+
+class Ship {
+    constructor(parts) {
+        this.parts = parts;
+        this.status = "ok";
+    }
+
+    evaluateShipHit(shotCoordinates) {
+
+        var destructionCounter = 0;
+
+        for (let i = 0; i < this.parts.length; i++) {
+
+            this.parts[i].evaluatePartHit(shotCoordinates);
+
+            if (this.parts[i].status == "destroyed") {
+                destructionCounter += 1;
+            }
+        }
+
+        if (destructionCounter == this.parts.length) {
             this.status = "destroyed";
         }
     }
@@ -31,7 +56,22 @@ class Gameboard {
 
         const shipParts = this.getShipParts(gameboard);
 
-        return shipParts;
+        const gameShips = this.makeShips(shipParts);
+
+        return gameShips;
+    }
+
+    makeShips(rawParts) {
+
+        var ships = [];
+
+        for (let i = 0; i < rawParts.length; i++) {
+            const newShip = new Ship([rawParts[i]]);
+
+            ships.push(newShip);
+        }
+
+        return ships;
     }
 
     getShipParts(gameboard) {
@@ -54,7 +94,7 @@ class Gameboard {
     evaluateGameShots() {
         for (let i = 0; i < this.numberOfShots; i++) {
             for (let j = 0; j < this.boardShips.length; j++) {
-                this.boardShips[j].evaluateHit(this.shotsInfo[i]);
+                this.boardShips[j].evaluateShipHit(this.shotsInfo[i]);
             }
         }
     }
