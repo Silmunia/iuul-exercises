@@ -26,7 +26,7 @@ class Ship {
 
     evaluateShipHit(shotCoordinates) {
 
-        var destructionCounter = 0;
+        let destructionCounter = 0;
 
         for (let i = 0; i < this.parts.length; i++) {
 
@@ -55,7 +55,7 @@ class ShipMaker {
     }
 
     makeShipParts(input) {
-        var shipPartsArray = [];
+        let shipPartsArray = [];
 
         for (let i = 0; i < input.length; i++) {
             for (let j = 0; j < input[i].length; j++) {
@@ -71,7 +71,7 @@ class ShipMaker {
     }
 
     makeShips(input) {
-        var ships = [];
+        let ships = [];
 
         for (let i = 0; i < input.length; i++) {
             const newShip = new Ship([input[i]]);
@@ -92,8 +92,8 @@ class Gameboard {
         this.shotsInfo = parameters[3];
     }
 
-    getShipsInGameboard(gameboard) {
-        const shipMaker = new ShipMaker(gameboard);
+    getShipsInGameboard(input) {
+        const shipMaker = new ShipMaker(input);
 
         return shipMaker.getGameShips();
     }
@@ -107,7 +107,7 @@ class Gameboard {
     }
 
     getShipsDestroyed() {
-        var shipCounter = 0;
+        let shipCounter = 0;
 
         this.evaluateGameShots();
 
@@ -127,10 +127,10 @@ class InputParser {
     }
 
     getParsedInput() {
-        var gameboardSize = null;
-        var gameboardLines = [];
-        var numberOfShots = null;
-        var shotsInfoArray = [];
+        let gameboardSize = null;
+        let gameboardLines = [];
+        let numberOfShots = null;
+        let shotsInfoArray = [];
 
         for (let i = 0; i < this.rawInput.length; i++) {
 
@@ -156,9 +156,9 @@ class InputParser {
 }
 
 function runTest() {
-    //var input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
-    var input = "5 5\n..###\n.....\n#####\n.....\n#.##.\n5\n5 1\n5 2\n1 3\n1 4\n1 5";
-    var lines = input.split('\n');
+    let input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
+    //let input = "5 5\n..###\n.....\n#####\n.....\n#.##.\n5\n5 1\n5 2\n1 3\n1 4\n1 5";
+    let lines = input.split('\n');
 
     const inputParser = new InputParser(lines);
 
