@@ -20,6 +20,25 @@ class InputParser {
     }
 }
 
+class TestUnit {
+    constructor(counter, values) {
+        if (isNaN(counter) || Number(counter) < 1 || Number(counter) > 100) {
+            throw new Error("TestUnit constructor expects a 'counter' parameter between 1 and 100, and received " + counter + " instead. Program aborted.");
+        }
+
+        this.counter = Number(counter);
+        this.values = [];
+
+        for (let i = 0; i < values.length; i++) {
+            if (isNaN(values[i])) {
+                throw new Error("TestUnit constructor expects a 'values' parameter containing only numbers and received " + values + " instead. Program aborted.")
+            }
+
+            this.values.push(Number(values[i]));
+        }
+    }
+}
+
 class TestManager {
     constructor(input) {
         this.testCounter = 1;
@@ -29,31 +48,28 @@ class TestManager {
 
     startTests() {
         for (let i = 0; i < this.testInput.length; i++) {
-            this.runIndividualTest(this.testInput[i]);
+
+            const currentTest = new TestUnit(this.testInput[i][0], this.testInput[i][1]);
+
+            this.runIndividualTest(currentTest);
         }
     }
     
-    runIndividualTest(input) {
+    runIndividualTest(testUnit) {
 
         var sum = 0;
         var result = null;
-        const numberOfValues = input[0];
-        const arrayOfValues = input[1];
+        const numberOfValues = testUnit.counter;
+        const arrayOfValues = testUnit.values;
 
         for (let i = 0; i < numberOfValues; i++) {
 
-            if (isNaN(arrayOfValues[i]) 
-                || Number(arrayOfValues[i]) < -30 
-                || Number(arrayOfValues[i]) > 30) {
-                continue;
-            }
-
-            if (Number(arrayOfValues[i]) == sum) {
+            if (arrayOfValues[i] == sum) {
                 result = arrayOfValues[i];
                 break;
             }
 
-            sum += Number(arrayOfValues[i]);
+            sum += arrayOfValues[i];
         }
 
         this.outputTestResult(result !== null ? result : "nao achei");
