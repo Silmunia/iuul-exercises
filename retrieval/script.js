@@ -11,7 +11,7 @@ class InputParser {
                 continue;
             }
 
-            const valuesToProcess = this.rawInput[i+1].split(" ").filter((value) => value != "");
+            const valuesToProcess = this.rawInput[i+1].split(" ").filter((value) => value !== "");
 
             parsedInputArray.push([this.rawInput[i], valuesToProcess]);
         }
@@ -31,7 +31,7 @@ class TestUnit {
 
         for (let i = 0; i < values.length; i++) {
             if (isNaN(values[i])) {
-                throw new Error("TestUnit constructor expects a 'values' parameter containing only numbers and received " + values + " instead. Program aborted.")
+                throw new Error("TestUnit constructor expects a 'values' parameter containing only numbers and received " + values + " instead. Program aborted.");
             }
 
             this.values.push(Number(values[i]));
@@ -78,7 +78,6 @@ class TestManager {
     outputTestResult(result) {
         console.log("Instancia " + this.testCounter);
         console.log(result);
-        console.log("\n");
 
         this.testCounter += 1;
     }
