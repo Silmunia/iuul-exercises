@@ -1,12 +1,22 @@
+class Gameboard {
+    constructor(size, boardState, numberOfShots, shotsInfo) {
+        this.lines = size[0];
+        this.columns = size[1];
+        this.boardState = boardState;
+        this.numberOfShots = numberOfShots;
+        this.shotsInfo = shotsInfo;
+    }
+}
+
 class InputParser {
     constructor(input) {
         this.rawInput = input;
     }
 
     getParsedInput() {
-        var parsedInputArray = [];
-
-        var boardInfoAray = [];
+        var gameboardSize = null;
+        var gameboardState = [];
+        var numberOfShots = null;
         var shotsInfoArray = [];
 
         for (let i = 0; i < this.rawInput.length; i++) {
@@ -14,20 +24,17 @@ class InputParser {
             const splitInput = this.rawInput[i].split(" ").filter((element) => element != "");
 
             if (i == 0) {
-                parsedInputArray.push(splitInput);
-            } else if (i <= parsedInputArray[0][0]) {
-                boardInfoAray.push(splitInput);
+                gameboardSize = splitInput;
+            } else if (i <= gameboardSize[0]) {
+                gameboardState.push(splitInput);
             } else if (splitInput.length == 1) {
-                parsedInputArray.push(boardInfoAray);
-                parsedInputArray.push(splitInput);
+                numberOfShots = splitInput[0];
             } else {
                 shotsInfoArray.push(splitInput);
             }
         }
 
-        parsedInputArray.push(shotsInfoArray);
-
-        return parsedInputArray;
+        return new Gameboard(gameboardSize, gameboardState, numberOfShots, shotsInfoArray);
     }
 }
 
