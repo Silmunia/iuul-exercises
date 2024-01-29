@@ -52,6 +52,10 @@ class TestManager {
             const currentTest = new TestUnit(this.testInput[i][0], this.testInput[i][1]);
 
             this.runIndividualTest(currentTest);
+
+            if (i < this.testInput.length-1) {
+                console.log("\n");
+            }
         }
     }
     
