@@ -79,6 +79,8 @@ class TestManager {
         console.log("Instancia " + this.testCounter);
         console.log(result);
         console.log("\n");
+
+        this.testCounter += 1;
     }
 }
 
