@@ -6,12 +6,12 @@ class Coordinates {
 }
 
 class Gameboard {
-    constructor(size, boardState, numberOfShots, shotsInfo) {
-        this.lines = size[0];
-        this.columns = size[1];
-        this.boardState = boardState;
-        this.numberOfShots = numberOfShots;
-        this.shotsInfo = shotsInfo;
+    constructor(parameters) {
+        this.lines = parameters[0][0];
+        this.columns = parameters[0][1];
+        this.boardState = parameters[1];
+        this.numberOfShots = parameters[2];
+        this.shotsInfo = parameters[3];
     }
 
     getShipsDestroyed() {
@@ -61,17 +61,18 @@ class InputParser {
             }
         }
 
-        return new Gameboard(gameboardSize, gameboardLines, numberOfShots, shotsInfoArray);
+        return [gameboardSize, gameboardLines, numberOfShots, shotsInfoArray];
     }
 }
 
 function runTest() {
-    var input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
+    //var input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
+    var input = "5 5\n..###\n.....\n#####\n.....\n#.##.\n5\n5 1\n5 2\n1 3\n1 4\n1 5";
     var lines = input.split('\n');
 
     const inputParser = new InputParser(lines);
 
-    const gameboard = inputParser.getParsedInput();
+    const gameboard = new Gameboard(inputParser.getParsedInput());
 
     console.log(gameboard.getShipsDestroyed());
 }
