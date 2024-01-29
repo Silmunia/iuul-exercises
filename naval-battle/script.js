@@ -5,24 +5,67 @@ class Coordinates {
     }
 }
 
+class ShipPart extends Coordinates {
+    constructor(x, y) {
+        super(x, y);
+        this.status = "ok";
+    }
+
+    evaluateHit(shotCoordinates) {
+        if (shotCoordinates.x == this.x && shotCoordinates.y == this.y) {
+            this.status = "destroyed";
+        }
+    }
+}
+
 class Gameboard {
     constructor(parameters) {
         this.lines = parameters[0][0];
         this.columns = parameters[0][1];
-        this.boardState = parameters[1];
+        this.boardShips = this.getShipsInGameboard(parameters[1]);
         this.numberOfShots = parameters[2];
         this.shotsInfo = parameters[3];
+    }
+
+    getShipsInGameboard(gameboard) {
+
+        const shipParts = this.getShipParts(gameboard);
+
+        return shipParts;
+    }
+
+    getShipParts(gameboard) {
+
+        var shipPartsArray = [];
+
+        for (let i = 0; i < this.lines; i++) {
+            for (let j = 0; j < this.columns; j++) {
+                if (gameboard[i][j] == "#") {
+                    const newShipPart = new ShipPart(i+1, j+1);
+
+                    shipPartsArray.push(newShipPart);
+                }
+            }
+        }
+
+        return shipPartsArray;
+    }
+
+    evaluateGameShots() {
+        for (let i = 0; i < this.numberOfShots; i++) {
+            for (let j = 0; j < this.boardShips.length; j++) {
+                this.boardShips[j].evaluateHit(this.shotsInfo[i]);
+            }
+        }
     }
 
     getShipsDestroyed() {
         var shipCounter = 0;
 
-        for (let i = 0; i < this.numberOfShots; i++) {
-            
-            const shotCoordinateX = this.shotsInfo[i].x-1;
-            const shotCoordinateY = this.shotsInfo[i].y-1;
+        this.evaluateGameShots();
 
-            if (this.boardState[shotCoordinateX][shotCoordinateY] == "#") {
+        for (let j = 0; j < this.boardShips.length; j++) {
+            if (this.boardShips[j].status == "destroyed") {
                 shipCounter += 1;
             }
         }
@@ -66,8 +109,8 @@ class InputParser {
 }
 
 function runTest() {
-    //var input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
-    var input = "5 5\n..###\n.....\n#####\n.....\n#.##.\n5\n5 1\n5 2\n1 3\n1 4\n1 5";
+    var input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
+    //var input = "5 5\n..###\n.....\n#####\n.....\n#.##.\n5\n5 1\n5 2\n1 3\n1 4\n1 5";
     var lines = input.split('\n');
 
     const inputParser = new InputParser(lines);
