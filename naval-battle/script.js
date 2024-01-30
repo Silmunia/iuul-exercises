@@ -71,15 +71,49 @@ class ShipMaker {
     }
 
     makeShips(input) {
+        const groupedParts = this.makePartGroups(input);
+
         let ships = [];
 
-        for (let i = 0; i < input.length; i++) {
-            const newShip = new Ship([input[i]]);
+        for (let i = 0; i < groupedParts.length; i++) {
+            const newShip = new Ship(groupedParts[i]);
 
             ships.push(newShip);
         }
 
         return ships;
+    }
+
+    makePartGroups(input) {
+        let partGroupsArray = [];
+        let jointParts = [];
+        let rawPartsArray = input;
+
+        while (rawPartsArray.length > 0) {
+            jointParts.push(rawPartsArray[0]);
+            rawPartsArray.splice(0,1);
+
+            for (let i = 0; i < jointParts.length; i++) {
+                for (let j = 0; j < rawPartsArray.length; ) {
+                    if (this.isCoordinateNeighbor(jointParts[i], rawPartsArray[j])) {
+                        jointParts.push(rawPartsArray[j]);
+                        rawPartsArray.splice(j,1)
+                    } else {
+                        j += 1;
+                    }
+                }
+            }
+
+            partGroupsArray.push(jointParts);
+            jointParts = [];
+        }
+
+        return partGroupsArray;
+    }
+
+    isCoordinateNeighbor(a, b) {
+        return (a.x == b.x && (a.y-1 == b.y || a.y+1 == b.y))
+            || (a.y == b.y && (a.x-1 == b.x || a.x+1 == b.x))
     }
 }
 
@@ -156,8 +190,9 @@ class InputParser {
 }
 
 function runTest() {
-    let input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
+    //let input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
     //let input = "5 5\n..###\n.....\n#####\n.....\n#.##.\n5\n5 1\n5 2\n1 3\n1 4\n1 5";
+    let input = "7 7\n.#....#\n###..##\n.#....#\n....#.#\n.#..#.#\n.####.#\n.......\n8\n1 1\n1 2\n2 1\n2 2\n2 3\n3 2\n5 2\n6 2";
     let lines = input.split('\n');
 
     const inputParser = new InputParser(lines);
