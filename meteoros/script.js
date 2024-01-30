@@ -88,14 +88,14 @@ class InputParser {
             throw new Error("Input does not include an entry to indicate end of input. Program aborted with input: " + this.rawInput);
         }
 
-        var currentIndex = 0;
-        var currentInput = this.rawInput[currentIndex];
+        let currentIndex = 0;
+        let currentInput = this.rawInput[currentIndex];
 
-        var parsedInfoArray = [];
-        var testInfoArray = [null, null];
-        var meteoriteCoordinatesArray = [];
+        let parsedInfoArray = [];
+        let testInfoArray = [null, null];
+        let meteoriteCoordinatesArray = [];
 
-        var meteoriteCounter = null;
+        let meteoriteCounter = null;
 
         while (currentInput !== "0 0 0 0") {
             
@@ -167,8 +167,8 @@ class InputParser {
 }
 
 function runTest() {
-    var input = "2 4 5 1\n2\n1 2\n3 3\n2 4 3 2\n3\n1 1\n2 2\n3 3\n0 10000 10000 0\n4\n0 0\n0 10000\n10000 0\n10000 10000\n0 0 0 0";
-    var lines = input.split('\n');
+    let input = "2 4 5 1\n2\n1 2\n3 3\n2 4 3 2\n3\n1 1\n2 2\n3 3\n0 10000 10000 0\n4\n0 0\n0 10000\n10000 0\n10000 10000\n0 0 0 0";
+    let lines = input.split('\n');
 
     const inputParser = new InputParser(lines);
 
