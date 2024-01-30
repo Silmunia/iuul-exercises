@@ -181,18 +181,20 @@ class InputParser {
 
             const splitInput = this.rawInput[i].split(" ").filter((element) => element !== "");
 
-            if (i === 0) {
-                gameboardSize = splitInput;
+            if (splitInput.length == 2) {
+                if (i === 0) {
+                    gameboardSize = splitInput;
+                } else {
+                    const shotCoordinate = new Coordinates(splitInput[0], splitInput[1]);
+
+                    shotsInfoArray.push(shotCoordinate);
+                }
             } else if (i <= gameboardSize[0]) {
                 const gameLine = splitInput[0].split("");
                 
                 gameboardLines.push(gameLine);
             } else if (splitInput.length == 1) {
                 numberOfShots = splitInput[0];
-            } else {
-                const shotCoordinate = new Coordinates(splitInput[0], splitInput[1]);
-
-                shotsInfoArray.push(shotCoordinate);
             }
         }
 
