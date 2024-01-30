@@ -22,10 +22,18 @@ class HTMLProcessor {
         const inputWords = this.getIndividualWords();
 
         let result = "";
+        let currentLine = "";
 
         for (let i = 0; i < inputWords.length; i++) {
-            result += inputWords[i] + " ";
+            if (currentLine.length + inputWords[i].length <= 80) {
+                currentLine += inputWords[i] + " ";
+            } else {
+                result += currentLine + "\n";
+                currentLine = inputWords[i] + " ";
+            }
         }
+
+        result += currentLine;
 
         return result;
     }
