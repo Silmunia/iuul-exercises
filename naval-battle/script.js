@@ -30,6 +30,8 @@ class Ship {
 
     evaluateShipHit(shotCoordinates) {
 
+        var destructionCounter = 0;
+
         for (let i = 0; i < this.parts.length; i++) {
 
             this.parts[i].evaluatePartHit(shotCoordinates);
@@ -192,9 +194,9 @@ class InputParser {
 }
 
 function runTest() {
-    //let input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
+    let input = "5 5\n..#.#\n#....\n...#.\n#....\n...#.\n5\n1 3\n1 4\n1 5\n2 1\n3 4";
     //let input = "5 5\n..###\n.....\n#####\n.....\n#.##.\n5\n5 1\n5 2\n1 3\n1 4\n1 5";
-    let input = "7 7\n.#....#\n###..##\n.#....#\n....#.#\n.#..#.#\n.####.#\n.......\n8\n1 1\n1 2\n2 1\n2 2\n2 3\n3 2\n5 2\n6 2";
+    //let input = "7 7\n.#....#\n###..##\n.#....#\n....#.#\n.#..#.#\n.####.#\n.......\n8\n1 1\n1 2\n2 1\n2 2\n2 3\n3 2\n5 2\n6 2";
     let lines = input.split('\n');
 
     const inputParser = new InputParser(lines);
