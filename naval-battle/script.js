@@ -18,6 +18,7 @@ class ShipPart extends Coordinates {
     evaluatePartHit(shotCoordinates) {
         if (shotCoordinates.x == this.x && shotCoordinates.y == this.y) {
             this.status = "destroyed";
+            return "hit";
         }
     }
 }
@@ -25,25 +26,27 @@ class ShipPart extends Coordinates {
 class Ship {
     constructor(parts) {
         this.parts = parts;
+        this.destroyedParts = 0;
         this.status = "ok";
     }
 
     evaluateShipHit(shotCoordinates) {
 
-        var destructionCounter = 0;
-
         for (let i = 0; i < this.parts.length; i++) {
+            if (this.parts[i].status == "ok" 
+                && this.parts[i].evaluatePartHit(shotCoordinates) == "hit") {
+                this.destroyedParts += 1;
 
-            this.parts[i].evaluatePartHit(shotCoordinates);
-
-            if (this.parts[i].status == "destroyed") {
-                destructionCounter += 1;
+                if (this.destroyedParts == this.parts.length) {
+                    this.status = "destroyed";
+                    return this.status;
+                } else {
+                    return "hit";
+                }
             }
         }
 
-        if (destructionCounter == this.parts.length) {
-            this.status = "destroyed";
-        }
+        return "ok";
     }
 }
 
@@ -136,22 +139,26 @@ class Gameboard {
         return shipMaker.getGameShips();
     }
 
-    evaluateGameShots() {
-        for (let i = 0; i < this.numberOfShots; i++) {
-            for (let j = 0; j < this.boardShips.length; j++) {
-                this.boardShips[j].evaluateShipHit(this.shotsInfo[i]);
-            }
-        }
-    }
-
     getShipsDestroyed() {
+
         let shipCounter = 0;
+        var activeShips = this.boardShips;
 
-        this.evaluateGameShots();
+        for (let i = 0; i < this.numberOfShots; i++) {
+            for (let j = 0; j < activeShips.length; j++) {
 
-        for (let j = 0; j < this.boardShips.length; j++) {
-            if (this.boardShips[j].status == "destroyed") {
-                shipCounter += 1;
+                let shotResult = activeShips[j].evaluateShipHit(this.shotsInfo[i]);
+
+                switch(shotResult) {
+                    case "destroyed":
+                        activeShips.splice(j, 0);
+                        shipCounter += 1;
+                        break;
+                    case "hit":
+                        break;
+                    default:
+                        continue;
+                }
             }
         }
 
