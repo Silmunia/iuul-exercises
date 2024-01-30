@@ -25,7 +25,11 @@ class HTMLProcessor {
         let currentLine = "";
 
         for (let i = 0; i < inputWords.length; i++) {
-            if (currentLine.length + inputWords[i].length <= 80) {
+            if (inputWords[i] == "<br>") {
+                currentLine += "\n";
+                result += currentLine;
+                currentLine = "";
+            } else if (currentLine.length + inputWords[i].length <= 80) {
                 currentLine += inputWords[i] + " ";
             } else {
                 result += currentLine + "\n";
