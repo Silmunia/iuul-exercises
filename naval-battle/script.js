@@ -97,7 +97,7 @@ class ShipMaker {
                 for (let j = 0; j < rawPartsArray.length; ) {
                     if (this.isCoordinateNeighbor(jointParts[i], rawPartsArray[j])) {
                         jointParts.push(rawPartsArray[j]);
-                        rawPartsArray.splice(j,1)
+                        rawPartsArray.splice(j,1);
                     } else {
                         j += 1;
                     }
@@ -113,7 +113,7 @@ class ShipMaker {
 
     isCoordinateNeighbor(a, b) {
         return (a.x == b.x && (a.y-1 == b.y || a.y+1 == b.y))
-            || (a.y == b.y && (a.x-1 == b.x || a.x+1 == b.x))
+            || (a.y == b.y && (a.x-1 == b.x || a.x+1 == b.x));
     }
 }
 
@@ -168,9 +168,9 @@ class InputParser {
 
         for (let i = 0; i < this.rawInput.length; i++) {
 
-            const splitInput = this.rawInput[i].split(" ").filter((element) => element != "");
+            const splitInput = this.rawInput[i].split(" ").filter((element) => element !== "");
 
-            if (i == 0) {
+            if (i === 0) {
                 gameboardSize = splitInput;
             } else if (i <= gameboardSize[0]) {
                 const gameLine = splitInput[0].split("");
