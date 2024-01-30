@@ -29,6 +29,10 @@ class HTMLProcessor {
                 currentLine += "\n";
                 result += currentLine;
                 currentLine = "";
+            } else if (inputWords[i] == "<hr>") {
+                result += currentLine.length > 0 ? currentLine + "\n" : "";
+                currentLine = "";
+                result += "--------------------------------------------------------------------------------\n";
             } else if (currentLine.length + inputWords[i].length <= 80) {
                 currentLine += inputWords[i] + " ";
             } else {
