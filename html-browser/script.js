@@ -34,15 +34,18 @@ class HTMLProcessor {
                 currentLine = "";
                 result += "--------------------------------------------------------------------------------\n";
             } else if (currentLine.length + inputWords[i].length <= 80) {
-                currentLine += inputWords[i] + " ";
+                if (i == inputWords.length-1) {
+                    currentLine += inputWords[i] + "\n";
+                    result += currentLine;
+                } else {
+                    currentLine += inputWords[i] + " ";
+                }
             } else {
                 result += currentLine + "\n";
                 currentLine = inputWords[i] + " ";
             }
         }
-
-        result += currentLine;
-
+        
         return result;
     }
 }
