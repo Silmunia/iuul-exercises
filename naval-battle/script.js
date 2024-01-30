@@ -1,7 +1,11 @@
 class Coordinates {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        if (isNaN(x) || isNaN(y)) {
+            throw new Error("Coordinates constructor expects two numbers as parameters and received [" + x + "-" + y + "] instead. Program aborted.");
+        }
+
+        this.x = Number(x);
+        this.y = Number(y);
     }
 }
 
@@ -25,8 +29,6 @@ class Ship {
     }
 
     evaluateShipHit(shotCoordinates) {
-
-        let destructionCounter = 0;
 
         for (let i = 0; i < this.parts.length; i++) {
 
