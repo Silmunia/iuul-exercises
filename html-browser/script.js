@@ -26,10 +26,12 @@ class HTMLProcessor {
 
         for (let i = 0; i < inputWords.length; i++) {
             if (inputWords[i] == "<br>") {
+                currentLine = currentLine.slice(0, -1);
                 currentLine += "\n";
                 result += currentLine;
                 currentLine = "";
             } else if (inputWords[i] == "<hr>") {
+                currentLine = currentLine.slice(0, -1);
                 result += currentLine.length > 0 ? currentLine + "\n" : "";
                 currentLine = "";
                 result += "--------------------------------------------------------------------------------\n";
@@ -41,11 +43,12 @@ class HTMLProcessor {
                     currentLine += inputWords[i] + " ";
                 }
             } else {
+                currentLine = currentLine.slice(0, -1);
                 result += currentLine + "\n";
-                currentLine = inputWords[i] + " ";
+                currentLine = inputWords[i];
             }
         }
-        
+
         return result;
     }
 }
